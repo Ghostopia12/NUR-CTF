@@ -13,7 +13,7 @@ export default function DesafioFormPage() {
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [tipoLista, setTipoLista] = useState([]);
-    const [tipo, setTipo] = useState('');
+    const [tipos, setTipo] = useState('');
     const [puntos, setPuntos] = useState(0);
     const [respuesta, setRespuesta] = useState(0);
     const [archivo, setArchivo] = useState(null);
@@ -25,13 +25,13 @@ export default function DesafioFormPage() {
         if (!loginValid) {
             return;
         }
-        loadDescripcion()
+        loadTipo()
         if(id){
             loadDesafio(id);
         }
     }, [])
 
-    const loadDescripcion = () => {
+    const loadTipo = () => {
         getListaTipo(getAuthToken()).then((data) => {
             setTipoLista(data);
         });
@@ -78,7 +78,7 @@ export default function DesafioFormPage() {
         putDesafio(getAuthToken(), {
             titulo,
             descripcion,
-            tipo,
+            tipo_id: tipo_id,
             puntos,
             respuesta,
             archivo,
@@ -100,13 +100,18 @@ export default function DesafioFormPage() {
             });
     }
 
+    const onTipoSeleccionado = (e) => {
+        setTipo(e.target.value);
+        console.log(tipos)
+    }
+
     const createDesafios = () => {
         setShowAlertError(false);
         const tipo_id = tipoLista.map((tipo) => tipo.id);
         postSaveDesafio(getAuthToken(), {
             titulo,
             descripcion,
-            tipo,
+            tipo_id: tipo_id,
             puntos,
             respuesta,
             archivo
@@ -149,12 +154,37 @@ export default function DesafioFormPage() {
                                     <Form.Control.Feedback type="invalid">Necesitas un titulo</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
+                                    <label>Descripcion</label>
+                                    <FormControl value={descripcion} required
+                                        onChange={(e) => {
+                                            setDescripcion(e.target.value);
+                                        }} />
+                                    <Form.Control.Feedback type="invalid">Necesitas un descripcion</Form.Control.Feedback>
+                                </FormGroup>
+                                <FormGroup>
                                     <label>Respuesta</label>
                                     <FormControl value={respuesta} required
                                         onChange={(e) => {
                                             setRespuesta(e.target.value);
-                                        }} type="number" />
+                                        }} />
                                     <Form.Control.Feedback type="invalid">Necesitas un respuesta</Form.Control.Feedback>
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>Puntos</label>
+                                    <FormControl value={puntos} required
+                                        onChange={(e) => {
+                                            setPuntos(e.target.value);
+                                        }} type="number" />
+                                    <Form.Control.Feedback type="invalid">Necesitas un puntos</Form.Control.Feedback>
+                                </FormGroup>
+                                <FormGroup>
+                                <label>Tipo</label>
+                                <Form.Control as="select" value={tipos} onChange={onTipoSeleccionado}>
+                                <option value="">Seleccione una opción</option>
+                                {tipoLista.map((tipo) => (
+                                    <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
+                                ))}
+                                </Form.Control>
                                 </FormGroup>
                                 <FormGroup>
                                     <label>Archivo</label>
@@ -164,24 +194,6 @@ export default function DesafioFormPage() {
                                         }} type="file"/>
                                     <Form.Control.Feedback type="invalid">Necesitas una archivo</Form.Control.Feedback>
                                 </FormGroup>
-                                {tipoLista.map((tipo) => {
-
-                                    //const participaEnDesafio = participantesDesafio.some(participante => participante.id === usuario.id);
-
-                                    return (
-                                        <label key={tipo.id}>
-                                        <input
-                                            type="checkbox"
-/*                                             checked={participantesDesafio.some((p) => p.id === usuario.id)}
- *//*                                             disabled={
-                                                participantesDesafio.some((p) => p.id === usuario.id && p.id === puntos_id)
-                                            } */
-                                            value={tipo.id}
-                                        />
-                                        {tipo.titulo}
-                                        </label>
-                                    )
-                                })}
                                 {/* lista de participantes, es decir usuarios marcados por un checkbox los que esten parcados son participantes y los que no no */}
                                 <div className="mt-3">
                                     <Button type="submit">Guardar desafio</Button>
