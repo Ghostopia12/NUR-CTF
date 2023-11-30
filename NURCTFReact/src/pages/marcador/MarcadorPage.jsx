@@ -1,10 +1,9 @@
-import Menu from "../components/Menu";
-import {  useNavigate } from "react-router-dom";
-import { getAuthToken, validateLogin } from "../utilities/TokenUtilities";
+import Menu from "../../components/Menu";
 
 const MarcadorPage = () => {
-    return ( 
+    return (
         <>
+            <Menu />
         </>
     );
 }
