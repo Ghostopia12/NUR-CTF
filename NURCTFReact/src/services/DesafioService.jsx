@@ -90,6 +90,32 @@ export const postSaveDesafio = (token, desafio) => {
     });
 }
 
+export const postRespuestaDesafio = (token, obj) => {
+    const formData = new FormData();
+
+    formData.append("desafio_id", obj.desafio_id);
+    formData.append("respuesta", obj.respuesta);
+
+
+    console.log(formData);
+    return new Promise((resolve, reject) => {
+        axios.post(BASE_URL + "/administracion/desafio/respuesta/", formData, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `JWT ${token}`
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                resolve(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                reject(error);
+            });
+    });
+}
+
 export const putDesafio = (token, desafio) => {
     return new Promise((resolve, reject) => {
         axios.put(BASE_URL + "/administracion/desafio/"+desafio.id+"/", desafio, {
