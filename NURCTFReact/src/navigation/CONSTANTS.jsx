@@ -11,3 +11,5 @@ export const PISTA_EDIT_URL = "/pista/editar/";
 export const PISTA_CREATE_URL = "/pista/create";
 export const DESAFIO_DETAIL_URL = "/desafio/detalle/";
 export const BUSCADOR_URL = "/buscador";
+
+export const MARCADOR_URL = "/marcador";
