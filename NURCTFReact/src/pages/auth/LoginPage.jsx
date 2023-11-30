@@ -92,7 +92,7 @@ export default function LoginPage() {
                                     <Button type="submit">Iniciar Sesión</Button>
                                 </div>
                                 <div className="mt-3">
-                                    <Button href={'http://127.0.0.1:5173'+REGISTER_URL}>Registrarse</Button>
+                                    <Button href={'http://localhost:5173'+REGISTER_URL}>Registrarse</Button>
                                 </div>
                             </Form>
                         </div>

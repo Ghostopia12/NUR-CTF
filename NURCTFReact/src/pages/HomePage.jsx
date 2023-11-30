@@ -22,7 +22,7 @@ export default function HomePage(){
           <Button onClick={()=> {
                   deleteDesafio(game.id)
           }}>Eliminar</Button>
-          <Link to={'http://127.0.0.1:5173'+DESAFIO_EDIT_URL+game.id}>Editar</Link>
+          <Link to={'http://localhost:5173'+DESAFIO_EDIT_URL+game.id}>Editar</Link>
         </>;
         }
       
@@ -40,7 +40,7 @@ export default function HomePage(){
               <Button onClick={()=> {
                       deleteTipo(tipo.id)
               }}>Eliminar</Button>
-              <Link to={'http://127.0.0.1:5173'+TIPO_EDIT_URL+tipo.id}>Editar</Link>
+              <Link to={'http://localhost:5173'+TIPO_EDIT_URL+tipo.id}>Editar</Link>
             </> : <></>
       );    
 
@@ -111,7 +111,7 @@ export default function HomePage(){
                                     <Button onClick={()=> {
                                             deleteTipo(tipo.id)
                                     }}>Eliminar</Button>
-                                    <Link to={'http://127.0.0.1:5173'+TIPO_EDIT_URL+tipo.id}>Editar</Link>
+                                    <Link to={'http://localhost:5173'+TIPO_EDIT_URL+tipo.id}>Editar</Link>
                                     <AdminTipoComponent owner={localStorage.getItem('is_admin')} tipo={tipo}/>
                                     </Navbar.Brand>
                                     <Navbar.Toggle aria-controls="basic-navbar-nav"  />
@@ -120,7 +120,7 @@ export default function HomePage(){
                                                         <Link>xd</Link>
                                                       {listaDesafios.map((desafio) => (
                                                         <li key={desafio.id}>
-                                                        <Link to={'http://127.0.0.1:5173'+DESAFIO_DETAIL_URL+desafio.id}>
+                                                        <Link to={'http://localhost:5173'+DESAFIO_DETAIL_URL+desafio.id}>
                                                           <h1>{desafio.nombre}</h1>
                                                           <Image alt={desafio.nombre} src={desafio.foto}/>
                                                           <p>{desafio.precio}</p>

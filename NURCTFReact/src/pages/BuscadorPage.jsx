@@ -21,7 +21,7 @@ export default function BuscadorPage(){
           <Button onClick={()=> {
                   deleteDesafio(game.id)
           }}>Eliminar</Button>
-          <Link to={'http://127.0.0.1:5173'+DESAFIO_EDIT_URL+game.id}>Editar</Link>
+          <Link to={'http://localhost:5173'+DESAFIO_EDIT_URL+game.id}>Editar</Link>
         </>;
         }
       
@@ -77,7 +77,7 @@ export default function BuscadorPage(){
                         <ul>
                         {listaDesafios.map((desafio) => (
                             <li key={desafio.id}>
-                            <Link to={'http://127.0.0.1:5173'+DESAFIO_DETAIL_URL+desafio.id}>
+                            <Link to={'http://localhost:5173'+DESAFIO_DETAIL_URL+desafio.id}>
                               <h1>{desafio.nombre}</h1>
                               <Image alt={desafio.nombre} src={desafio.foto}/>
                               <p>{desafio.precio}</p>
