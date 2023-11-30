@@ -1,0 +1,45 @@
+# Node.js
+node_modules/
+
+# React build
+build/
+dist/
+
+# Django
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+Scripts/
+Lib/
+.idea/
+0001_initial.py
+# Django development database
+db.sqlite3
+
+# Visual Studio Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+
+# PyInstaller
+dist/
+build/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Log files
+*.log
+
+# Windows
+Thumbs.db
