@@ -78,7 +78,7 @@ export default function RegisterPage() {
                                     <Button type="submit">Registrarse</Button>
                                 </div>
                                 <div className="mt-3">
-                                    <Button href={'http://127.0.0.1:5173'+LOGIN_URL}>Ya tengo una cuenta</Button>
+                                    <Button href={'http://localhost:5173'+LOGIN_URL}>Ya tengo una cuenta</Button>
                                 </div>
                             </Form>
                         </div>

@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import BuscadorPage from "../pages/BuscadorPage";
-import { HOME_URL, LOGIN_URL, DESAFIO_CREATE_URL, REGISTER_URL, TIPO_CREATE_URL, DESAFIO_DETAIL_URL, BUSCADOR_URL,ABOUT_URL, PERFIL_URL } from "./CONSTANTS";
+import { HOME_URL, LOGIN_URL, DESAFIO_CREATE_URL, REGISTER_URL, TIPO_CREATE_URL, DESAFIO_DETAIL_URL, BUSCADOR_URL,ABOUT_URL, PERFIL_URL, PISTA_CREATE_URL } from "./CONSTANTS";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import DesafioFormPage from "../pages/desafio/DesafioFormPage";
 import DesafioDetailPage from "../pages/desafio/DesafioDetailPage";
 import TipoFormPage from "../pages/TipoFormPage";
+import PistaFormPage from "../pages/PistaFormPage";
 
 export const router = createBrowserRouter([
     {
@@ -40,6 +41,14 @@ export const router = createBrowserRouter([
     {
         path: '/tipo/editar/:id',
         element: <TipoFormPage/>,
+    },
+    {
+        path: PISTA_CREATE_URL,
+        element: <PistaFormPage/>,
+    },
+    {
+        path: '/pista/editar/:id',
+        element: <PistaFormPage/>,
     },
     {
         path: PERFIL_URL,
