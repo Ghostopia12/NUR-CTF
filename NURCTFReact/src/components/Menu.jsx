@@ -2,7 +2,7 @@ import { Container, Nav, Navbar, Form, FormControl, Button } from "react-bootstr
 import { Link } from "react-router-dom";
 import { DESAFIO_CREATE_URL, HOME_URL, TIPO_CREATE_URL, ABOUT_URL, PERFIL_URL } from "../navigation/CONSTANTS";//LOGIN_URL
 import { useState } from "react";
-import { buscarXNombre } from "../services";
+//import { buscarXNombre } from "../services";
 
 export default function Menu () {
     //const navigate = useNavigate();
@@ -12,9 +12,9 @@ export default function Menu () {
     const handleSearch = (event) => {
       event.preventDefault();
       console.log('Realizar búsqueda:', searchQuery);
-      buscarXNombre(localStorage.getItem('token'),searchQuery).then((data) => {
+      /*buscarXNombre(localStorage.getItem('token'),searchQuery).then((data) => {
         console.log(data);        
-        });
+        });*/
       setSearchQuery('');
     };
 

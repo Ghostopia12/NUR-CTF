@@ -2,7 +2,7 @@ import { Card, Container, Button, Nav, Navbar, Image } from "react-bootstrap";
 import Menu from "../components/Menu";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getListaDesafios, delDesafio, getListaTipo, getDesafiosXTipo, delTipo } from "../services";
+import { getListaDesafios, delDesafio, getListaTipo, delTipo } from "../services";
 import { getAuthToken, validateLogin } from "../utilities/TokenUtilities";
 import {  useNavigate } from "react-router-dom";
 import { DESAFIO_DETAIL_URL, DESAFIO_EDIT_URL, TIPO_EDIT_URL } from "../navigation/CONSTANTS";
@@ -65,16 +65,6 @@ export default function HomePage(){
     const loadTipos = () => {
         getListaTipo(getAuthToken()).then((data) => {
             setListaTipos(data);
-            let index = 0;
-            listaTipos.forEach(tipo => {
-              //debugger
-              getDesafiosXTipo(getAuthToken(),tipo.id).then((data) => {
-                console.log(data);
-                listaDesafios[index] = data;
-              })
-              index++;
-            });
-            console.log(data);
         });
     }
 

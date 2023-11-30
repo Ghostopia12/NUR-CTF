@@ -2,7 +2,7 @@ import { Card, Container, Button, Nav, Navbar, Image } from "react-bootstrap";
 import Menu from "../components/Menu";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { buscarXNombre, delDesafio } from "../services";
+import { delDesafio } from "../services";
 import { getAuthToken, validateLogin } from "../utilities/TokenUtilities";
 import {  useNavigate } from "react-router-dom";
 import { DESAFIO_DETAIL_URL, DESAFIO_EDIT_URL, TIPO_EDIT_URL } from "../navigation/CONSTANTS";
@@ -41,10 +41,10 @@ export default function BuscadorPage(){
     
 
     const loadDesafios = () => {
-        buscarXNombre(getAuthToken(), 'data').then((data) => {
+        /*buscarXNombre(getAuthToken(), 'data').then((data) => {
             setListaDesafios(data);
             console.log(data);
-        });
+        });*/
     }
 
     const deleteDesafio = (id) => {
