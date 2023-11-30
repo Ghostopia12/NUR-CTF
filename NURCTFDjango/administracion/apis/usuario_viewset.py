@@ -22,6 +22,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
     # permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
@@ -31,6 +32,14 @@ class UsuarioViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
+
+    # get usuarios de forma ascendente donde el usuario con mas puntos es el primero
+    @action(detail=False, methods=['get'], url_path='puntos', name="puntos")
+    def puntos(self, request, pk=None):
+        queryset = Usuario.objects.all().order_by('-puntos')
+        serializer = UsuarioSerializer(queryset, many=True)
+        return Response(serializer.data)
+    # ruta para usar esto? R.- administracion/user/puntos
 
     # @api_view(['GET'])
     # @authentication_classes([TokenAuthentication])
