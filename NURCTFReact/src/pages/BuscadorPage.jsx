@@ -54,7 +54,7 @@ export default function BuscadorPage(){
     }
 
 
-    const GameDetail = ({ game }) => {
+    const DesafioDetail = ({ game }) => {
         return (
           <div>
             <h2>{game.nombre}</h2>

@@ -63,7 +63,6 @@ export const postSaveTipo = (token, tipo) => {
     const formData = new FormData();
 
     formData.append("nombre", tipo.nombre);
-    formData.append("foto", tipo.foto);
 
     console.log(formData);
 

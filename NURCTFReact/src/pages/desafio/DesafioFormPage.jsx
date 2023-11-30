@@ -9,12 +9,14 @@ import { getAuthToken, validateLogin } from "../../utilities/TokenUtilities";
 export default function DesafioFormPage() {
     const navigate = useNavigate();
 
-    const [nombre, setNombre] = useState('');
-    const [tipos, setTipos] = useState([]);
-    const [listaTipos, setListaTipos] = useState([]);
-    const [owner_id, setOwner] = useState('');
-    const [precio, setPrecio] = useState(0);
-    const [foto, setFoto] = useState('');
+
+    const [titulo, setTitulo] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [tipoLista, setTipoLista] = useState([]);
+    const [tipo, setTipo] = useState('');
+    const [puntos, setPuntos] = useState(0);
+    const [respuesta, setRespuesta] = useState(0);
+    const [archivo, setArchivo] = useState(null);
 
     let { id } = useParams();
 
@@ -23,15 +25,15 @@ export default function DesafioFormPage() {
         if (!loginValid) {
             return;
         }
-        loadTipos()
+        loadDescripcion()
         if(id){
             loadDesafio(id);
         }
     }, [])
 
-    const loadTipos = () => {
+    const loadDescripcion = () => {
         getListaTipo(getAuthToken()).then((data) => {
-            setListaTipos(data);
+            setTipoLista(data);
         });
     }
 
@@ -42,11 +44,12 @@ export default function DesafioFormPage() {
         getDesafio(getAuthToken(),id).then((data) => {
             console.log(data);
             debugger
-            setNombre(data.nombre);
-            setTipos(data.tipos);
-            setOwner(data.owner_id);
-            setPrecio(data.precio);
-            setFoto(data.foto);
+            setTitulo(data.titulo);
+            setDescripcion(data.descripcion);
+            setTipo(data.tipo);
+            setPuntos(data.puntos);
+            setRespuesta(data.respuesta);
+            setArchivo(data.archivo);
 /*             getDesafioParticipants(getAuthToken(),data.id).then((data) => {
                 setParticipantesDesafio(data);
             }); */
@@ -71,12 +74,14 @@ export default function DesafioFormPage() {
     
     const updateDesafios = () => {
         setShowAlertError(false);
-        const tipo_id = listaTipos.map((tipo) => tipo.id);
+        const tipo_id = tipoLista.map((tipo) => tipo.id);
         putDesafio(getAuthToken(), {
-            nombre,
-            tipos: tipo_id,
-            precio,
-            foto,
+            titulo,
+            descripcion,
+            tipo,
+            puntos,
+            respuesta,
+            archivo,
             id
         })
             .then((data) => {
@@ -97,13 +102,14 @@ export default function DesafioFormPage() {
 
     const createDesafios = () => {
         setShowAlertError(false);
-        const tipo_id = listaTipos.map((tipo) => tipo.id);
+        const tipo_id = tipoLista.map((tipo) => tipo.id);
         postSaveDesafio(getAuthToken(), {
-            nombre,
-            precio,
-            foto,
-            owner_id: localStorage.getItem("user_id"),
-            tipos: tipo_id
+            titulo,
+            descripcion,
+            tipo,
+            puntos,
+            respuesta,
+            archivo
         })
             .then((data) => {
                 if (!data.id) {
@@ -135,30 +141,30 @@ export default function DesafioFormPage() {
                             </Alert>}
                             <Form noValidate onSubmit={onDesafiosFormSubmit} validated={validated}>
                                 <FormGroup>
-                                    <label>Nombre</label>
-                                    <FormControl value={nombre} required
+                                    <label>Titulo</label>
+                                    <FormControl value={titulo} required
                                         onChange={(e) => {
-                                            setNombre(e.target.value);
+                                            setTitulo(e.target.value);
                                         }} />
-                                    <Form.Control.Feedback type="invalid">Necesitas un nombre</Form.Control.Feedback>
+                                    <Form.Control.Feedback type="invalid">Necesitas un titulo</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
-                                    <label>Precio</label>
-                                    <FormControl value={precio} required
+                                    <label>Respuesta</label>
+                                    <FormControl value={respuesta} required
                                         onChange={(e) => {
-                                            setPrecio(e.target.value);
+                                            setRespuesta(e.target.value);
                                         }} type="number" />
-                                    <Form.Control.Feedback type="invalid">Necesitas un precio</Form.Control.Feedback>
+                                    <Form.Control.Feedback type="invalid">Necesitas un respuesta</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
-                                    <label>Foto</label>
+                                    <label>Archivo</label>
                                     <FormControl required
                                         onChange={(e) => {
-                                            setFoto(e.target.files[0]);
+                                            setArchivo(e.target.files[0]);
                                         }} type="file"/>
-                                    <Form.Control.Feedback type="invalid">Necesitas una foto</Form.Control.Feedback>
+                                    <Form.Control.Feedback type="invalid">Necesitas una archivo</Form.Control.Feedback>
                                 </FormGroup>
-                                {listaTipos.map((tipo) => {
+                                {tipoLista.map((tipo) => {
 
                                     //const participaEnDesafio = participantesDesafio.some(participante => participante.id === usuario.id);
 
@@ -168,11 +174,11 @@ export default function DesafioFormPage() {
                                             type="checkbox"
 /*                                             checked={participantesDesafio.some((p) => p.id === usuario.id)}
  *//*                                             disabled={
-                                                participantesDesafio.some((p) => p.id === usuario.id && p.id === owner_id_id)
+                                                participantesDesafio.some((p) => p.id === usuario.id && p.id === puntos_id)
                                             } */
                                             value={tipo.id}
                                         />
-                                        {tipo.nombre}
+                                        {tipo.titulo}
                                         </label>
                                     )
                                 })}

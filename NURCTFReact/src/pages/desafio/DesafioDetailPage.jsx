@@ -1,7 +1,7 @@
 import { Card, Container, Image } from "react-bootstrap";
 import Menu from "../../components/Menu";
 import { useState, useEffect } from "react";
-import { getDesafio, getTiposXDesafio } from "../../services";
+import { getDesafio } from "../../services";
 import { useNavigate, useParams } from "react-router-dom";
 import { HOME_URL } from "../../navigation/CONSTANTS";
 import { getAuthToken, validateLogin } from "../../utilities/TokenUtilities";
@@ -27,11 +27,6 @@ export default function DesafioDetailPage() {
         }
     }, [])
 
-    const loadTiposGame = () => {
-        getTiposXDesafio(getAuthToken()).then((data) => {
-            setTipos(data);
-        });
-    }
 
     const loadDesafio = (id) => {
         getDesafio(getAuthToken(),id).then((data) => {

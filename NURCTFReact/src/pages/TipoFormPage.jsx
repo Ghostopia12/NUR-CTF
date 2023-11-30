@@ -10,7 +10,6 @@ export default function TipoFormPage() {
     const navigate = useNavigate();
 
     const [nombre, setNombre] = useState('');
-    const [foto, setFoto] = useState('');
 
     let { id } = useParams();
 
@@ -33,7 +32,6 @@ export default function TipoFormPage() {
             console.log(data);
             //debugger
             setNombre(data.nombre);
-            setFoto(data.foto);
 /*             getTipoParticipants(getAuthToken(),data.id).then((data) => {
                 setParticipantesTipo(data);
             }); */
@@ -60,7 +58,6 @@ export default function TipoFormPage() {
         setShowAlertError(false);
         putTipo(getAuthToken(), {
             nombre,
-            foto,
             id
         })
             .then((data) => {
@@ -82,8 +79,7 @@ export default function TipoFormPage() {
     const createTipos = () => {
         setShowAlertError(false);
         postSaveTipo(getAuthToken(), {
-            nombre,
-            foto
+            nombre
         })
             .then((data) => {
                 if (!data.id) {
@@ -121,14 +117,6 @@ export default function TipoFormPage() {
                                             setNombre(e.target.value);
                                         }} />
                                     <Form.Control.Feedback type="invalid">Necesitas un nombre</Form.Control.Feedback>
-                                </FormGroup>
-                                <FormGroup>
-                                    <label>Foto</label>
-                                    <FormControl required
-                                        onChange={(e) => {
-                                            setFoto(e.target.files[0]);
-                                        }} type="file"/>
-                                    <Form.Control.Feedback type="invalid">Necesitas una foto</Form.Control.Feedback>
                                 </FormGroup>
                                 <div className="mt-3">
                                     <Button type="submit">Guardar tipo</Button>
