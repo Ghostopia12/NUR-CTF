@@ -8,3 +8,5 @@ class Pistas(models.Model):
     costo = models.IntegerField()
     desafio = models.ForeignKey(Desafio, on_delete=models.CASCADE, related_name='desafio', null=False, default=1)
 
+    def __str__(self):
+        return self.pista
