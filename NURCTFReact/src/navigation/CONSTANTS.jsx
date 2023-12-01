@@ -13,4 +13,4 @@ export const DESAFIO_DETAIL_URL = "/desafio/detalle/";
 export const BUSCADOR_URL = "/buscador";
 
 export const MARCADOR_URL = "/marcador";
-export const DESAFIOS_URL = "/desafio";
+export const DESAFIOS_URL = "/desafios";

@@ -9,6 +9,7 @@ import DesafioDetailPage from "../pages/desafio/DesafioDetailPage";
 import TipoFormPage from "../pages/TipoFormPage";
 import PistaFormPage from "../pages/PistaFormPage";
 import MarcadorPage from "../pages/marcador/MarcadorPage";
+import DesafiosPage from "../pages/desafio/DesafiosPage";
 
 export const router = createBrowserRouter([
     {
@@ -72,6 +73,6 @@ export const router = createBrowserRouter([
     },
     {
         path: DESAFIOS_URL,
-        element: <DesafioFormPage />,
+        element: <DesafiosPage />,
     }
 ]);
