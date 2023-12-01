@@ -7,7 +7,6 @@ from django.db import transaction
 from administracion.apis.tipo_viewset import TipoSerializer
 from administracion.models import Desafio, DesafioUsuario
 import hashlib
-from django.core.exceptions import ObjectDoesNotExist
 
 
 class DesafioSerializer(serializers.ModelSerializer):
@@ -38,14 +37,13 @@ class DesafioViewSet(viewsets.ModelViewSet):
                 archivo=request.data['archivo'],
                 tipo_id=request.data['tipo_id']
             )
-            if desafio.intentos > 0:
-                usuarios = Usuario.objects.all()
-                for usuario in usuarios:
-                    DesafioUsuario.objects.create(
-                        desafio_u_id=desafio.pk,
-                        usuario_id=usuario.pk,
-                        intento=0,
-                    )
+            usuarios = Usuario.objects.all()
+            for usuario in usuarios:
+                DesafioUsuario.objects.create(
+                    desafio_u_id=desafio.pk,
+                    usuario_id=usuario.pk,
+                    intento=0,
+                )
             return Response(status=201)
 
     @action(detail=False, methods=['post'], url_path="respuesta",
@@ -53,17 +51,14 @@ class DesafioViewSet(viewsets.ModelViewSet):
     def validacionRespuesta(self, request, pk=None):
         respuesta = self.__md5_hash(request.data['respuesta'])
         desafio = Desafio.objects.get(pk=request.data['desafio_id'])
-        try:
-            intentos = DesafioUsuario.objects.get(desafio_u_id=request.data['desafio_id'],
-                                                  usuario_id=request.data['usuario_id'])
-            if intentos <= desafio.intentos:
+        intentos = DesafioUsuario.objects.get(desafio_u_id=request.data['desafio_id'],
+                                              usuario_id=request.data['usuario_id'])
+        if intentos.intento <= desafio.intentos and intentos.resuelto == False:
+            if desafio.intentos > 0:
                 intentos.intentos += 1
                 intentos.save()
-                return self.__validarRespuesta(desafio, respuesta)
-            return False
-        except ObjectDoesNotExist:
             return self.__validarRespuesta(desafio, respuesta)
-
+        return False
 
     def __md5_hash(self,string):
         md5_hasher = hashlib.md5()
