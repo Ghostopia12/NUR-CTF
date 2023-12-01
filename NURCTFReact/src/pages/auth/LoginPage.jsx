@@ -44,10 +44,6 @@ export default function LoginPage() {
                     localStorage.setItem("user_id", data.id);
                 });
                 navigate(DESAFIOS_URL);
-/*                 curretUser(data.access).then((user) => {
-                    localStorage.setItem("user", user);
-                    navigate(HOME_URL);
-                }) */
             })
             .catch((error) => {
                 if (error.response.status === 401) {
