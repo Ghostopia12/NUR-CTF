@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.db import transaction
 
 from administracion.apis.tipo_viewset import TipoSerializer
-from administracion.models import Desafio, DesafioUsuario
+from administracion.models import Desafio, DesafioUsuario, Usuario
 import hashlib
 
 
@@ -53,21 +53,30 @@ class DesafioViewSet(viewsets.ModelViewSet):
         desafio = Desafio.objects.get(pk=request.data['desafio_id'])
         intentos = DesafioUsuario.objects.get(desafio_u_id=request.data['desafio_id'],
                                               usuario_id=request.data['usuario_id'])
-        if intentos.intento <= desafio.intentos and intentos.resuelto == False:
+        if intentos.intento <= desafio.intentos:
             if desafio.intentos > 0:
                 intentos.intentos += 1
                 intentos.save()
             if respuesta == desafio.respuesta:
+                if intentos.resuelto == True:
+                    return Response(status=200)
                 intentos.resuelto = True
                 intentos.save()
                 usuario = Usuario.objects.get(pk=request.data['usuario_id'])
                 usuario.puntos += desafio.puntos
                 usuario.save()
-                return True
-            return False
-        return False
+                return Response(status=200)
+            respuestaJson = {
+                'mensaje': 'Respuesta incorrecta'
+            }
+            return Response(respuestaJson, status=400) # respuesta incorrecta
+        # puedes retornar un mensaje de intentos agotados en formato json
+        respuestaJson = {
+            'mensaje': 'Intentos agotados'
+        }
+        return Response(respuestaJson, status=400)
 
-    def __md5_hash(self,string):
+    def __md5_hash(self, string):
         md5_hasher = hashlib.md5()
         md5_hasher.update(string.encode('utf-8'))
         md5_hash = md5_hasher.hexdigest()
