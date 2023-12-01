@@ -81,15 +81,6 @@ const DesafiosPage = () => {
     }
 
     const saveRespuesta = () => {
-        "desafio_id": [
-            "This field is required."
-        ],
-        "usuario_id": [
-            "This field is required."
-        ],
-        "intento": [
-            "This field is required."
-        ]
         postRespuestaDesafio(localStorage.getItem('token'), desafioActual.id, respuesta)
             .then((data) => {
                 console.log(data);
