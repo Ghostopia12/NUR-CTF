@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from administracion.apis.desafio_viewset import DesafioSerializer
-from administracion.models import Pistas
+from administracion.models import Pistas, Usuario, PistasUsuario
 from django.db import transaction
 
 class PistasSerializer(serializers.ModelSerializer):
