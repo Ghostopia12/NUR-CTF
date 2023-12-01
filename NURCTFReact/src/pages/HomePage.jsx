@@ -98,7 +98,7 @@ export default function HomePage(){
                 <Card>
                     <Card.Body>
                         <Card.Title>
-                            Desafios
+                            Home
                         </Card.Title>
                         <ul>
                             {listaTipos.map((tipo) => (
