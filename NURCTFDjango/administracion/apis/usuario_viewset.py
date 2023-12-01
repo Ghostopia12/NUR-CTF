@@ -29,7 +29,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
             user = Usuario.objects.create_user(username=request.data['username'], password=request.data['password'])
-            desafios = Desafio.objects.exclude(intentos=0)
+            desafios = Desafio.objects.all()
             for desafio in desafios:
                 DesafioUsuario.objects.create(
                     desafio_u_id=desafio.pk,
