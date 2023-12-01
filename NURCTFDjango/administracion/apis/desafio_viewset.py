@@ -57,7 +57,14 @@ class DesafioViewSet(viewsets.ModelViewSet):
             if desafio.intentos > 0:
                 intentos.intentos += 1
                 intentos.save()
-            return self.__validarRespuesta(desafio, respuesta)
+            if respuesta == desafio.respuesta:
+                intentos.resuelto = True
+                intentos.save()
+                usuario = Usuario.objects.get(pk=request.data['usuario_id'])
+                usuario.puntos += desafio.puntos
+                usuario.save()
+                return True
+            return False
         return False
 
     def __md5_hash(self,string):
@@ -65,8 +72,3 @@ class DesafioViewSet(viewsets.ModelViewSet):
         md5_hasher.update(string.encode('utf-8'))
         md5_hash = md5_hasher.hexdigest()
         return md5_hash
-
-    def __validar_respuesta(self, respuesta, desafio):
-        if respuesta == desafio.respuesta:
-            return True
-        return False
