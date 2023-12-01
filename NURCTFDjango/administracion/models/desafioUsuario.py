@@ -1,0 +1,9 @@
+from django.db import models
+
+from administracion.models import Desafio, Usuario
+
+
+class DesafioUsuario(models.Model):
+    intento = models.IntegerField()
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='usuario', null=False, default=1)
+    desafio_u = models.ForeignKey(Desafio, on_delete=models.CASCADE, related_name='desafio_u', null=False, default=1)

@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, authentication_classes, action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from administracion.models import Usuario
+from administracion.models import Usuario, Desafio, DesafioUsuario
 
 
 class UsuarioSimpleSerializer(serializers.ModelSerializer):
@@ -29,6 +29,13 @@ class UsuarioViewSet(viewsets.ModelViewSet):
         serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
             user = Usuario.objects.create_user(username=request.data['username'], password=request.data['password'])
+            desafios = Desafio.objects.exclude(intentos=0)
+            for desafio in desafios:
+                DesafioUsuario.objects.create(
+                    desafio_u_id=desafio.pk,
+                    usuario_id=user.pk,
+                    intento=0,
+                )
             return Response(serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)

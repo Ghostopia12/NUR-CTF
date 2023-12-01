@@ -15,8 +15,9 @@ export default function DesafioFormPage() {
     const [tipoLista, setTipoLista] = useState([]);
     const [tipos, setTipo] = useState('');
     const [puntos, setPuntos] = useState(0);
-    const [respuesta, setRespuesta] = useState(0);
+    const [respuesta, setRespuesta] = useState('');
     const [archivo, setArchivo] = useState(null);
+    const [intentos, setIntentos] = useState(0);
 
     let { id } = useParams();
 
@@ -48,6 +49,7 @@ export default function DesafioFormPage() {
             setDescripcion(data.descripcion);
             setTipo(data.tipo);
             setPuntos(data.puntos);
+            setIntentos(data.intentos);
             setRespuesta(data.respuesta);
             setArchivo(data.archivo);
 /*             getDesafioParticipants(getAuthToken(),data.id).then((data) => {
@@ -78,8 +80,9 @@ export default function DesafioFormPage() {
         putDesafio(getAuthToken(), {
             titulo,
             descripcion,
-            tipo_id: tipo_id,
+            tipo_id: tipos,
             puntos,
+            intentos,
             respuesta,
             archivo,
             id
@@ -111,8 +114,9 @@ export default function DesafioFormPage() {
         postSaveDesafio(getAuthToken(), {
             titulo,
             descripcion,
-            tipo_id: tipo_id,
+            tipo_id: tipos,
             puntos,
+            intentos,
             respuesta,
             archivo
         })
@@ -178,6 +182,15 @@ export default function DesafioFormPage() {
                                     <Form.Control.Feedback type="invalid">Necesitas un puntos</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
+                                    <label>Intentos</label>
+                                    <p>Si no quieres limite, dejalo en 0</p>
+                                    <FormControl value={intentos} required
+                                        onChange={(e) => {
+                                            setIntentos(e.target.value);
+                                        }} type="number" />
+                                    <Form.Control.Feedback type="invalid">Necesitas un intentos</Form.Control.Feedback>
+                                </FormGroup>
+                                <FormGroup>
                                 <label>Tipo</label>
                                 <Form.Control as="select" value={tipos} onChange={onTipoSeleccionado}>
                                 <option value="">Seleccione una opción</option>
@@ -188,11 +201,10 @@ export default function DesafioFormPage() {
                                 </FormGroup>
                                 <FormGroup>
                                     <label>Archivo</label>
-                                    <FormControl required
+                                    <FormControl 
                                         onChange={(e) => {
                                             setArchivo(e.target.files[0]);
                                         }} type="file"/>
-                                    <Form.Control.Feedback type="invalid">Necesitas una archivo</Form.Control.Feedback>
                                 </FormGroup>
                                 {/* lista de participantes, es decir usuarios marcados por un checkbox los que esten parcados son participantes y los que no no */}
                                 <div className="mt-3">
