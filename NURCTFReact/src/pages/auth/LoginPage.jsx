@@ -3,7 +3,7 @@ import Menu from "../../components/Menu";
 import { useState } from "react";
 import { postLogin, getUsuario  } from "../../services"; //, curretUser
 import { useNavigate } from "react-router-dom";
-import { HOME_URL, REGISTER_URL } from "../../navigation/CONSTANTS";
+import { DESAFIOS_URL, HOME_URL, REGISTER_URL } from "../../navigation/CONSTANTS";
 import jwt_decode from 'jwt-decode';
 
 
@@ -43,11 +43,7 @@ export default function LoginPage() {
                     localStorage.setItem("is_superuser", data.is_superuser);
                     localStorage.setItem("user_id", data.id);
                 });
-                navigate(HOME_URL);
-/*                 curretUser(data.access).then((user) => {
-                    localStorage.setItem("user", user);
-                    navigate(HOME_URL);
-                }) */
+                navigate(DESAFIOS_URL);
             })
             .catch((error) => {
                 if (error.response.status === 401) {

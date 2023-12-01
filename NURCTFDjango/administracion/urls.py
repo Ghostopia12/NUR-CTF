@@ -7,6 +7,11 @@ from administracion.apis.tipo_viewset import TipoViewSet
 from administracion.apis.usuario_viewset import UsuarioViewSet
 from administracion.apis.desafioUsuario_viewset import DesafioUsuarioViewSet
 
+from django.urls import path, include
+from rest_framework import routers
+from django.conf import settings
+from django.conf.urls.static import static
+
 router = routers.DefaultRouter()
 router.register(r'desafio', DesafioViewSet)
 router.register(r'pista', PistasViewSet)
