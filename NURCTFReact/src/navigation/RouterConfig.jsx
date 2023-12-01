@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import BuscadorPage from "../pages/BuscadorPage";
-import { HOME_URL, LOGIN_URL, DESAFIO_CREATE_URL, REGISTER_URL, TIPO_CREATE_URL, DESAFIO_DETAIL_URL, BUSCADOR_URL, ABOUT_URL, PERFIL_URL, PISTA_CREATE_URL, MARCADOR_URL } from "./CONSTANTS";
+import { HOME_URL, LOGIN_URL, DESAFIO_CREATE_URL, REGISTER_URL, TIPO_CREATE_URL, DESAFIO_DETAIL_URL, BUSCADOR_URL, ABOUT_URL, PERFIL_URL, PISTA_CREATE_URL, MARCADOR_URL, DESAFIOS_URL } from "./CONSTANTS";
 import LoginPage from "../pages/auth/LoginPage";
 import RegisterPage from "../pages/auth/RegisterPage";
 import DesafioFormPage from "../pages/desafio/DesafioFormPage";
@@ -70,4 +70,8 @@ export const router = createBrowserRouter([
         path: MARCADOR_URL,
         element: <MarcadorPage />,
     },
+    {
+        path: DESAFIOS_URL,
+        element: <DesafioFormPage />,
+    }
 ]);
