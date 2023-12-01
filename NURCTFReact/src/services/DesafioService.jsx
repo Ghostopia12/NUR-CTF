@@ -65,9 +65,11 @@ export const postSaveDesafio = (token, desafio) => {
 
     formData.append("titulo", desafio.titulo);
     formData.append("descripcion", desafio.descripcion);
+    formData.append("intentos", desafio.intentos);
     formData.append("puntos", desafio.puntos);
     formData.append("respuesta", desafio.respuesta);
     formData.append("archivo", desafio.archivo);
+    console.log(desafio.archivo);
     formData.append("tipo_id", desafio.tipo_id);
 
 
@@ -75,7 +77,7 @@ export const postSaveDesafio = (token, desafio) => {
     return new Promise((resolve, reject) => {
         axios.post(BASE_URL + "/administracion/desafio/", formData, {
             headers: {
-                "Content-Type": "application/json",
+                //"Content-Type": "application/json",
                 Authorization: `JWT ${token}`
             },
         })

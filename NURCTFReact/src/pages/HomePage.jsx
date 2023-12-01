@@ -108,7 +108,6 @@ export default function HomePage(){
                                 <Container fluid>
                                     <Navbar.Brand >
                                     {tipo.nombre}
-                                    <Image src={tipo.foto} alt={tipo.nombre}/>
                                     <Button onClick={()=> {
                                             deleteTipo(tipo.id)
                                     }}>Eliminar</Button>

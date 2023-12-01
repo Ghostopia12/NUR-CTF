@@ -77,6 +77,8 @@ export default function PistaFormPage() {
         setShowAlertError(false);
         putPista(getAuthToken(), {
             pista,
+            costo,
+            desafio_id: desafios,
             id
         })
             .then((data) => {
@@ -98,7 +100,9 @@ export default function PistaFormPage() {
     const createPistas = () => {
         setShowAlertError(false);
         postSavePista(getAuthToken(), {
-            pista
+            pista,
+            costo,
+            desafio_id: desafios,
         })
             .then((data) => {
                 if (!data.id) {
@@ -150,7 +154,7 @@ export default function PistaFormPage() {
                                 <Form.Control as="select" value={desafios} onChange={onDesafioSeleccionado}>
                                 <option value="">Seleccione una opción</option>
                                 {desafioLista.map((desafio) => (
-                                    <option key={desafio.id} value={desafio.id}>{desafio.nombre}</option>
+                                    <option key={desafio.id} value={desafio.id}>{desafio.titulo}</option>
                                 ))}
                                 </Form.Control>
                                 </FormGroup>
