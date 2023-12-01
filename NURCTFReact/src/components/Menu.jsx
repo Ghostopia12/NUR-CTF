@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar, Form, FormControl, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { DESAFIO_CREATE_URL, HOME_URL, TIPO_CREATE_URL, ABOUT_URL, PERFIL_URL, PISTA_CREATE_URL, MARCADOR_URL, LOGIN_URL } from "../navigation/CONSTANTS";//LOGIN_URL
+import { DESAFIO_CREATE_URL, HOME_URL, TIPO_CREATE_URL, ABOUT_URL, PERFIL_URL, PISTA_CREATE_URL, MARCADOR_URL, LOGIN_URL, DESAFIOS_URL } from "../navigation/CONSTANTS";//LOGIN_URL
 import { useState } from "react";
 //import { buscarXNombre } from "../services";
 
@@ -46,22 +46,22 @@ export default function Menu() {
         <>
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Container fluid>
-                    <Navbar.Brand to={HOME_URL}>NUR CTF</Navbar.Brand>
+                    <Navbar.Brand href={HOME_URL}>NUR CTF</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Form inline onSubmit={handleSearch}>
                         </Form>
                         <Nav className="me-auto">
-                            <Link className="nav-link" to={MARCADOR_URL}>Marcador Puntos</Link> 
-                            <Link className="nav-link" to={ABOUT_URL}>Inicio</Link>
+                            <Link className="nav-link" to={HOME_URL}>Inicio</Link>
+                            <Link className="nav-link" to={DESAFIOS_URL}>Desafios</Link>
+                            <Link className="nav-link" to={MARCADOR_URL}>Marcador Puntos</Link>
                             {/*                         <AdminComponent owner={isAdmin} />
  */}
-                            <Link className="nav-link" to={HOME_URL}>Desafios</Link>
-                            <Link className="nav-link" to={PERFIL_URL}>Perfil</Link>
+                            {/* <Link className="nav-link" to={PERFIL_URL}>Tipo Desafio</Link> */}
                             <Link className="nav-link" to={DESAFIO_CREATE_URL}>Crear Desafio</Link>
                             <Link className="nav-link" to={TIPO_CREATE_URL}>Crear Tipo</Link>
                             <Link className="nav-link" to={PISTA_CREATE_URL}>Crear Pista</Link>
-                            <Link className="nav-link" to={LOGIN_URL}onClick={logout}>
+                            <Link className="nav-link" to={LOGIN_URL} onClick={logout}>
                                 Cerrar sesión
                             </Link>
 
