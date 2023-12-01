@@ -23,3 +23,11 @@ class DesafioUsuarioViewSet(viewsets.ModelViewSet):
     queryset = DesafioUsuario.objects.all()
     serializer_class = DesafioUsuarioSerializer
     permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['get'], url_path='resueltos', name="resueltos")
+    def desafios_resueltos(self, request, pk=None):
+        queryset = DesafioUsuario.objects.filter(usuario_id=request.user.id, resuelto=True)
+        serializer = DesafioUsuarioSerializer(queryset, many=True)
+        return Response(serializer.data)
+    # ruta para usar esto? R.- administracion/desafio-suario/resueltos
+
