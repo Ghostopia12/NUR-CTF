@@ -1,0 +1,30 @@
+/* HomePage.css */
+
+.home-card {
+    background-color: #f8f9fa;
+    border: 8px solid #007bff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 15px 8px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to right, #f8f9fa, #e2e6ea, #cfd8dc, #b7c3c9, #9fb0b6);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+
+}
+
+.home-image {
+    max-width: 100%;
+    max-height: 300px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.home-title {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.home-text {
+    color: rgb(44, 41, 41);
+    margin-bottom: 20px;
+}
