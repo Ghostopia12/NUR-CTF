@@ -116,6 +116,7 @@ export const postRespuestaDesafio = (token, obj) => {
     const formData = new FormData();
 
     formData.append("desafio_id", obj.desafio_id);
+    formData.append("usuario_id", obj.usuario_id);
     formData.append("respuesta", obj.respuesta);
 
 
