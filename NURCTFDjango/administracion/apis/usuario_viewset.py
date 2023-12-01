@@ -3,8 +3,9 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.db import transaction
 
-from administracion.models import Usuario, Desafio, DesafioUsuario
+from administracion.models import Usuario, Desafio, DesafioUsuario, Pistas, PistasUsuario
 
 
 class UsuarioSimpleSerializer(serializers.ModelSerializer):
@@ -24,21 +25,28 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     serializer_class = UsuarioSerializer
 
     # permission_classes = [IsAuthenticated]
-
+    @transaction.atomic()
     def create(self, request, *args, **kwargs):
-        serializer = UsuarioSerializer(data=request.data)
-        if serializer.is_valid():
-            user = Usuario.objects.create_user(username=request.data['username'], password=request.data['password'])
-            desafios = Desafio.objects.all()
-            for desafio in desafios:
-                DesafioUsuario.objects.create(
-                    desafio_u_id=desafio.pk,
-                    usuario_id=user.pk,
-                    intento=0,
-                )
-            return Response(serializer.data, status=201)
-        else:
-            return Response(serializer.errors, status=400)
+        with transaction.atomic():
+            serializer = UsuarioSerializer(data=request.data)
+            if serializer.is_valid():
+                user = Usuario.objects.create_user(username=request.data['username'], password=request.data['password'])
+                desafios = Desafio.objects.all()
+                for desafio in desafios:
+                    DesafioUsuario.objects.create(
+                        desafio_u_id=desafio.pk,
+                        usuario_id=user.pk,
+                        intento=0,
+                    )
+                pistas = Pistas.objects.all()
+                for pista in pistas:
+                    PistasUsuario.objects.create(
+                        pista_u_id=pista.pk,
+                        usuario_p_id=user.pk
+                    )
+                return Response(serializer.data, status=201)
+            else:
+                return Response(serializer.errors, status=400)
 
     # get usuarios de forma ascendente donde el usuario con mas puntos es el primero
     @action(detail=False, methods=['get'], url_path='puntos', name="puntos")
