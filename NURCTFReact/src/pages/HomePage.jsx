@@ -99,6 +99,7 @@ export default function HomePage(){
                     <Card.Body>
                         <Card.Title>
                             Home
+                            Aqui se coloca la informacion de la pagina principal de que se trata el juego
                         </Card.Title>
                         <ul>
                             {listaTipos.map((tipo) => (
