@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../../components/Menu";
 import { getListaDesafios, getListaDesafiosUsuariosResueltos, getListaTipo, postRespuestaDesafio } from "../../services";
-import { Button, Card, Container, Form, FormControl, FormGroup, Modal } from "react-bootstrap";
+import { Alert, Button, Card, Container, Form, FormControl, FormGroup, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { validateLogin } from "../../utilities/TokenUtilities";
 
 const DesafiosPage = () => {
     const navigate = useNavigate();
@@ -14,9 +15,16 @@ const DesafiosPage = () => {
     const [desafioActual, setDesafioActual] = useState({});
     const [tipoActual, setTipoActual] = useState({});
     const [respuesta, setRespuesta] = useState('');
+    const [showAlertError, setShowAlertError] = useState(false);
+    const [mensajeError, setMensajeError] = useState('');
+    const [showMessageCorrect, setShowMessageCorrect] = useState(false);
 
 
     useEffect(() => {
+        const loginValid = validateLogin(navigate);
+        if (!loginValid) {
+            return;
+        }
         fetchResueltos();
         fetchDesafios();
         fetchTiposDeDesafios();
@@ -55,11 +63,15 @@ const DesafiosPage = () => {
     const abrirModal = () => {
         setMostrarModal(true);
         setValidated(false);
+        setRespuesta('');
+        setShowAlertError(false);
     };
 
     const cerrarModal = () => {
         setMostrarModal(false);
         setValidated(false);
+        setRespuesta('');
+        setShowAlertError(false);
     };
 
     const handleClickDesafio = (desafio, tipo) => {
@@ -70,6 +82,7 @@ const DesafiosPage = () => {
     }
 
     const onSubmitFlag = (e) => {
+        setShowAlertError(false);
         console.log(respuesta);
         const form = e.currentTarget;
         let isValid = form.checkValidity();
@@ -79,16 +92,31 @@ const DesafiosPage = () => {
         if (!isValid) return;
         saveRespuesta();
     }
+    
+    const mensajeMotivacional = () => {
+        setTimeout(() => {
+            setShowMessageCorrect(false);
+        }, 3000);
+    }
 
     const saveRespuesta = () => {
-        postRespuestaDesafio(localStorage.getItem('token'), desafioActual.id, respuesta)
+        postRespuestaDesafio(localStorage.getItem('token'), {
+            desafio_id: desafioActual.id,
+            usuario_id: localStorage.getItem('user_id'),
+            respuesta: respuesta
+        })
             .then((data) => {
+                setRespuesta('');
                 console.log(data);
                 fetchResueltos();
                 cerrarModal();
+                setShowMessageCorrect(true);
+                mensajeMotivacional();
             })
             .catch((error) => {
-                console.error('Error fetching desafios:', error);
+                setMensajeError("Respuesta incorrecta");
+                setShowAlertError(true);
+                console.error('Error saving respuesta:', error);
             });
     }
 
@@ -97,6 +125,9 @@ const DesafiosPage = () => {
             <Card>
                 <Menu />
                 <h1 className="text-center bg-dark text-white">Desafios</h1>
+                {showMessageCorrect && <Alert variant="success" className="mt-2 text-center">
+                    Respuesta Correcta  + {desafioActual.puntos} puntos
+                </Alert>}
                 <Container>
                     {listaTipos.map((tipo) => (
                         <div key={tipo.id}>
@@ -106,7 +137,10 @@ const DesafiosPage = () => {
                                     <React.Fragment key={desafio.id}>
                                         {desafio.tipo.id === tipo.id && (
                                             <Card
-                                                className={`col-md-3 mb-2 m-3 ${listaResueltos.some(item => item.desafio_u === desafio.id) ? 'bg-success' : ''}`}
+                                                className={`col-md-3 mb-2 m-3 
+                                                ${desafio.intentos === 3 ? 'bg-danger' : ''}
+                                                ${listaResueltos.some(item => item.desafio_u === desafio.id) ? 'bg-success' : ''}
+                                                `}
                                                 onClick={() => handleClickDesafio(desafio, tipo)}
                                             >
                                                 <Card.Body className="text-center">
@@ -129,7 +163,6 @@ const DesafiosPage = () => {
                     <Modal.Header closeButton>
                         <Modal.Title>{tipoActual.nombre}</Modal.Title>
                     </Modal.Header>
-
                     <Modal.Body className="text-center">
                         <h1>{desafioActual.titulo}</h1>
                         <h4>{desafioActual.puntos}</h4>
@@ -150,24 +183,38 @@ const DesafiosPage = () => {
                             </>
                         )}
                         <br />
+                        {desafioActual.intentos !== 0 && (
+                            <b>Limitado a {desafioActual.intentos} intentos.</b>
+                        )}
+                        <br />
                         <br />
 
-                        <FormGroup>
-                            <FormControl value={respuesta} required placeholder="NurCTF{flag}"
-                                onChange={(e) => {
-                                    setRespuesta(e.target.value);
-                                }} />
-                            <Form.Control.Feedback type="invalid">Insert flag</Form.Control.Feedback>
-                        </FormGroup>
+                        {desafioActual.intentos === 3 ? (
+                            <Alert variant="danger" className="mt-4">
+                                No tienes más intentos
+                            </Alert>
+                        ) : (
+                            <FormGroup>
+                                <FormControl value={respuesta} required placeholder="NurCTF{flag}"
+                                    onChange={(e) => {
+                                        setRespuesta(e.target.value);
+                                    }} />
+                                <Form.Control.Feedback type="invalid">Insert flag</Form.Control.Feedback>
+                            </FormGroup>
+                        )}
+                        {showAlertError && <Alert variant="danger" className="mt-4">
+                            {mensajeError}
+                        </Alert>}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button type="submit" variant="primary">
-                            Submit
-                        </Button>
+                        {desafioActual.intentos < 3 && (
+                            <Button variant="primary" type="submit">
+                                Enviar
+                            </Button>
+                        )}
                         <Button variant="secondary" onClick={cerrarModal}>
                             Cerrar
                         </Button>
-                        {/* Puedes agregar más botones según tus necesidades */}
                     </Modal.Footer>
                 </Form>
             </Modal>
