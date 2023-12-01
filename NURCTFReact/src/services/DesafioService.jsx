@@ -124,7 +124,7 @@ export const postRespuestaDesafio = (token, obj) => {
     return new Promise((resolve, reject) => {
         axios.post(BASE_URL + "/administracion/desafio/respuesta/", formData, {
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
                 Authorization: `JWT ${token}`
             },
         })
