@@ -5,6 +5,7 @@ import { Alert, Button, Card, Container, Form, FormControl, FormGroup, Modal } f
 import { useNavigate } from "react-router-dom";
 import { validateLogin } from "../../utilities/TokenUtilities";
 
+
 const DesafiosPage = () => {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
@@ -18,6 +19,8 @@ const DesafiosPage = () => {
     const [showAlertError, setShowAlertError] = useState(false);
     const [mensajeError, setMensajeError] = useState('');
     const [showMessageCorrect, setShowMessageCorrect] = useState(false);
+    const [listaDesafiosIntentosDispobles, setListaDesafiosIntentosDispobles] = useState([]);
+
 
 
     useEffect(() => {
@@ -77,8 +80,19 @@ const DesafiosPage = () => {
     const handleClickDesafio = (desafio, tipo) => {
         // navigate(`/desafio/${desafioId}`);
         abrirModal();
+        obtenerIntentosDisponibles(desafio.id);
         setDesafioActual(desafio);
         setTipoActual(tipo);
+    }
+    
+    const obtenerIntentosDisponibles = (desafioId) => {
+        let intentos = 0;
+        listaDesafiosIntentosDispobles.forEach((item) => {
+            if (item.desafio_u === desafioId) {
+                intentos = item.intentos;
+            }
+        });
+        desafioActual.intentosDisponibles = intentos;
     }
 
     const onSubmitFlag = (e) => {
