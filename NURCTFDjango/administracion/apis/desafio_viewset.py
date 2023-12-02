@@ -52,7 +52,7 @@ class DesafioViewSet(viewsets.ModelViewSet):
         desafio = Desafio.objects.get(pk=request.data['desafio_id'])
         intentos = DesafioUsuario.objects.get(desafio_u_id=request.data['desafio_id'],
                                               usuario_id=request.data['usuario_id'])
-        if intentos.intento <= desafio.intentos:
+        if intentos.intento < desafio.intentos or desafio.intentos == 0:
             if desafio.intentos > 0:
                 intentos.intento += 1
                 intentos.save()
