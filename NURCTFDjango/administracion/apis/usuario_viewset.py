@@ -11,7 +11,7 @@ from administracion.models import Usuario, Desafio, DesafioUsuario, Pistas, Pist
 class UsuarioSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'puntos', 'is_superuser']
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
