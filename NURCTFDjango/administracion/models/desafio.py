@@ -12,6 +12,7 @@ class Desafio(models.Model):
     intentos = models.IntegerField(default=0)
     archivo = models.FileField(upload_to='media/recurso', null=True, blank=True)
     tipo = models.ForeignKey(Tipo, on_delete=models.CASCADE, related_name='tipo', null=True, default=1)
+    url = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.titulo

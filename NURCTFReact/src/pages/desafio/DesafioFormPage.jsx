@@ -18,6 +18,7 @@ export default function DesafioFormPage() {
     const [respuesta, setRespuesta] = useState('');
     const [archivo, setArchivo] = useState(null);
     const [intentos, setIntentos] = useState(0);
+    const [url, setUrl] = useState('');
 
     let { id } = useParams();
 
@@ -51,6 +52,7 @@ export default function DesafioFormPage() {
             setPuntos(data.puntos);
             setIntentos(data.intentos);
             setRespuesta(data.respuesta);
+            setUrl(data.url);
             setArchivo(data.archivo);
 /*             getDesafioParticipants(getAuthToken(),data.id).then((data) => {
                 setParticipantesDesafio(data);
@@ -84,6 +86,7 @@ export default function DesafioFormPage() {
             puntos,
             intentos,
             respuesta,
+            url,
             archivo,
             id
         })
@@ -118,6 +121,7 @@ export default function DesafioFormPage() {
             puntos,
             intentos,
             respuesta,
+            url,
             archivo
         })
             .then((data) => {
@@ -164,6 +168,13 @@ export default function DesafioFormPage() {
                                             setDescripcion(e.target.value);
                                         }} />
                                     <Form.Control.Feedback type="invalid">Necesitas un descripcion</Form.Control.Feedback>
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>URL</label>
+                                    <FormControl value={url} required
+                                        onChange={(e) => {
+                                            setUrl(e.target.value);
+                                        }} />
                                 </FormGroup>
                                 <FormGroup>
                                     <label>Respuesta</label>

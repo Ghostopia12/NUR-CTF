@@ -88,6 +88,7 @@ export const postSaveDesafio = (token, desafio) => {
     formData.append("intentos", desafio.intentos);
     formData.append("puntos", desafio.puntos);
     formData.append("respuesta", desafio.respuesta);
+    formData.append("url", desafio.url);
     formData.append("archivo", desafio.archivo);
     console.log(desafio.archivo);
     formData.append("tipo_id", desafio.tipo_id);
