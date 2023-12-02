@@ -138,9 +138,10 @@ const DesafiosPage = () => {
                                         {desafio.tipo.id === tipo.id && (
                                             <Card
                                                 className={`col-md-3 mb-2 m-3 
-                                                ${desafio.intentos === 3 ? 'bg-danger' : ''}
+                                                
                                                 ${listaResueltos.some(item => item.desafio_u === desafio.id) ? 'bg-success' : ''}
                                                 `}
+                                                // ${desafio.intentos === 3 ? 'bg-danger' : ''}
                                                 onClick={() => handleClickDesafio(desafio, tipo)}
                                             >
                                                 <Card.Body className="text-center">
@@ -189,11 +190,11 @@ const DesafiosPage = () => {
                         <br />
                         <br />
 
-                        {desafioActual.intentos === 3 ? (
+                        {/* {desafioActual.intentos === 3 ? (
                             <Alert variant="danger" className="mt-4">
                                 No tienes más intentos
                             </Alert>
-                        ) : (
+                        ) : ( */}
                             <FormGroup>
                                 <FormControl value={respuesta} required placeholder="NurCTF{flag}"
                                     onChange={(e) => {
@@ -201,17 +202,17 @@ const DesafiosPage = () => {
                                     }} />
                                 <Form.Control.Feedback type="invalid">Insert flag</Form.Control.Feedback>
                             </FormGroup>
-                        )}
+                        {/* )} */}
                         {showAlertError && <Alert variant="danger" className="mt-4">
                             {mensajeError}
                         </Alert>}
                     </Modal.Body>
                     <Modal.Footer>
-                        {desafioActual.intentos < 3 && (
+                        {/* {desafioActual.intentos < 3 && ( */}
                             <Button variant="primary" type="submit">
                                 Enviar
                             </Button>
-                        )}
+                        {/* )} */}
                         <Button variant="secondary" onClick={cerrarModal}>
                             Cerrar
                         </Button>
