@@ -1,4 +1,4 @@
-import { LOGIN_URL } from "../navigation/CONSTANTS";
+import { LOGIN_URL, HOME_URL } from "../navigation/CONSTANTS";
 
 export const getAuthToken = () => {
     const token = localStorage.getItem("token");
@@ -15,4 +15,17 @@ export const validateLogin = (navigate) => {
         return false;
     }
     return true;
+}
+
+export const amILog = () => {
+    const token = getAuthToken();
+    if (token==null) {
+        return false;
+    }
+    return true;
+}
+
+export const checkIfUserIsAdmin = () => {
+    const is_superuser = localStorage.getItem("is_superuser");
+    return is_superuser==="true";
 }

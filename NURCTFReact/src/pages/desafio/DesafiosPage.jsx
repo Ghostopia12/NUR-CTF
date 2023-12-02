@@ -5,6 +5,7 @@ import { Alert, Button, Card, Container, Form, FormControl, FormGroup, Modal } f
 import { useNavigate } from "react-router-dom";
 import { validateLogin } from "../../utilities/TokenUtilities";
 
+import './desafio.css';
 
 const DesafiosPage = () => {
     const navigate = useNavigate();
@@ -151,14 +152,14 @@ const DesafiosPage = () => {
                 </Alert>}
                 <Container>
                     {listaTipos.map((tipo) => (
-                        <div key={tipo.id}>
+                        <div key={tipo.id} >
                             <Card.Header className="text-center">{tipo.nombre}</Card.Header>
                             <div className="row justify-content-center">
                                 {listaDesafios.map((desafio) => (
                                     <React.Fragment key={desafio.id}>
                                         {desafio.tipo.id === tipo.id && (
                                             <Card
-                                                className={`col-md-3 mb-2 m-3 
+                                                className={`col-md-3 mb-2 m-3 hoverable
                                                 ${listaResueltos.some(item => item.desafio_u === desafio.id) ? 'bg-success' : (desafio.intentosActuales === 3 ? 'bg-danger' : '')}`}
                                                 onClick={() => handleClickDesafio(desafio, tipo)}>
                                                 <Card.Body className="text-center">
@@ -182,21 +183,22 @@ const DesafiosPage = () => {
                         <Modal.Title>{tipoActual.nombre}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body className="text-center">
-                        <h1>{desafioActual.titulo}</h1>
-                        <h4>{desafioActual.puntos}</h4>
-                        <h7>
+                        <h3>{desafioActual.titulo}</h3>
+                        <h6>{desafioActual.puntos} puntos</h6>
+                        <p className="noHagoFrontendNuncaMas" >
                             {desafioActual.descripcion}
-                        </h7>
+                        </p>
                         {desafioActual.archivo && !desafioActual.archivo.includes("null") && (
                             <>
-                                <br />
                                 <a
                                     href={desafioActual.archivo}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     download
                                 >
+                                    <button className="btnDescargar">
                                     Descargar Archivo
+                                    </button>
                                 </a>
                             </>
                         )}

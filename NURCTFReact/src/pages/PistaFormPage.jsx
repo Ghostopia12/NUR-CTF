@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { postSavePista, getPista, putPista, getListaDesafios } from "../services"; //, getPistaParticipants
 import { useNavigate, useParams } from "react-router-dom";
 import { HOME_URL } from "../navigation/CONSTANTS";
-import { getAuthToken, validateLogin } from "../utilities/TokenUtilities";
+import { getAuthToken, validateLogin, checkIfUserIsAdmin } from "../utilities/TokenUtilities";
 
 export default function PistaFormPage() {
     const navigate = useNavigate();
@@ -23,6 +23,10 @@ export default function PistaFormPage() {
     useEffect(() => {
         const loginValid = validateLogin(navigate);
         if (!loginValid) {
+            return;
+        }
+        if(!checkIfUserIsAdmin()){
+            navigate(HOME_URL);
             return;
         }
         loadDesafios()

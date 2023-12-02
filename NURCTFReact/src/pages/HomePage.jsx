@@ -4,7 +4,7 @@ import Menu from "../components/Menu";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getListaDesafios, delDesafio, getListaTipo, delTipo } from "../services";
-import { getAuthToken, validateLogin } from "../utilities/TokenUtilities";
+import { getAuthToken, validateLogin, amILog } from "../utilities/TokenUtilities";
 import { useNavigate } from "react-router-dom";
 import { DESAFIO_DETAIL_URL, DESAFIO_EDIT_URL, LOGIN_URL, TIPO_EDIT_URL } from "../navigation/CONSTANTS";
 
@@ -29,6 +29,12 @@ export default function HomePage() {
                             Aquí encontrarás emocionantes desafíos para poner a prueba tus habilidades de seguridad informática.
                         </Card.Text>
                         <p>Todas las respuestas seran en mayusculas sin tilde y con espacios</p>
+                        {
+                            /*!amILog() && 
+                        <Button href={LOGIN_URL} variant="danger">
+                            Iniciar Sesión
+                        </Button>*/
+                        }
                         <Button href={LOGIN_URL} variant="danger">
                             Iniciar Sesión
                         </Button>

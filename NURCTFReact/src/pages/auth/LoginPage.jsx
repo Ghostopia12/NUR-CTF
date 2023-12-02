@@ -43,7 +43,9 @@ export default function LoginPage() {
                     localStorage.setItem("is_superuser", data.is_superuser);
                     localStorage.setItem("user_id", data.id);
                 });
-                navigate(DESAFIOS_URL);
+                setTimeout(() => {
+                    navigate(DESAFIOS_URL);
+                }, 500);
             })
             .catch((error) => {
                 if (error.response.status === 401) {
