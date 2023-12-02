@@ -31,3 +31,9 @@ class DesafioUsuarioViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
     # ruta para usar esto? R.- administracion/desafio-suario/resueltos
 
+    # obtener desafios de un usuario
+    @action(detail=False, methods=['get'], url_path='usuario', name="usuario")
+    def usuario(self, request, pk=None):
+        queryset = DesafioUsuario.objects.filter(usuario_id=request.user.id)
+        serializer = DesafioUsuarioSerializer(queryset, many=True)
+        return Response(serializer.data)

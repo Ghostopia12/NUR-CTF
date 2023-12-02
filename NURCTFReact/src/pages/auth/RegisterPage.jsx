@@ -33,7 +33,7 @@ export default function RegisterPage() {
             .then((data) => {
                 localStorage.setItem("token", data.access);
                 localStorage.setItem("refresh", data.refresh);
-                navigate(HOME_URL);
+                navigate(LOGIN_URL);
             })
             .catch((error) => {
                 if (error.response.status === 401) {

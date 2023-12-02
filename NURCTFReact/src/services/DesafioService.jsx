@@ -40,6 +40,25 @@ export const getListaDesafios = (token) => {
     });
 }
 
+export const getListaDesafiosDeUsuario = (token) => {
+    return new Promise((resolve, reject) => {
+        axios.get(BASE_URL + "/administracion/desafio-usuario/usuario/", {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `JWT ${token}`
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                resolve(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                reject(error);
+            });
+        });
+}
+
 export const getDesafio = (token, id) => {
     return new Promise((resolve, reject) => {
         axios.get(BASE_URL + "/administracion/desafio/"+id+"/", {
