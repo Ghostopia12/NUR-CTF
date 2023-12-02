@@ -52,6 +52,11 @@ class DesafioViewSet(viewsets.ModelViewSet):
         desafio = Desafio.objects.get(pk=request.data['desafio_id'])
         intentos = DesafioUsuario.objects.get(desafio_u_id=request.data['desafio_id'],
                                               usuario_id=request.data['usuario_id'])
+        if intentos.resuelto == True:
+            respuestaJson = {
+                'mensaje': 'Ya resolviste este ejercicio'
+            }
+            return Response(respuestaJson, status=200)
         if intentos.intento < desafio.intentos or desafio.intentos == 0:
             if desafio.intentos > 0:
                 intentos.intento += 1
