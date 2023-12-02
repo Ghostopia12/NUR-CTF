@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../../components/Menu";
-import { getListaDesafios, getListaDesafiosUsuariosResueltos, getListaTipo, postRespuestaDesafio } from "../../services";
+import { getListaDesafios, getListaDesafiosDeUsuario, getListaDesafiosUsuariosResueltos, getListaTipo, postRespuestaDesafio } from "../../services";
 import { Alert, Button, Card, Container, Form, FormControl, FormGroup, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { validateLogin } from "../../utilities/TokenUtilities";
@@ -8,16 +8,17 @@ import { validateLogin } from "../../utilities/TokenUtilities";
 const DesafiosPage = () => {
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
-    const [listaResueltos, setListaResueltos] = useState([]);
-    const [listaTipos, setListaTipos] = useState([]);
-    const [listaDesafios, setListaDesafios] = useState([]);
+    let [listaResueltos, setListaResueltos] = useState([]);
+    let [listaTipos, setListaTipos] = useState([]);
+    let [listaDesafios, setListaDesafios] = useState([]);
     const [mostrarModal, setMostrarModal] = useState(false);
-    const [desafioActual, setDesafioActual] = useState({});
+    let [desafioActual, setDesafioActual] = useState({});
     const [tipoActual, setTipoActual] = useState({});
     const [respuesta, setRespuesta] = useState('');
     const [showAlertError, setShowAlertError] = useState(false);
     const [mensajeError, setMensajeError] = useState('');
     const [showMessageCorrect, setShowMessageCorrect] = useState(false);
+    let [listaDesafiosUsuario, setListaDesafiosUsuario] = useState([]);
 
 
     useEffect(() => {
@@ -26,8 +27,8 @@ const DesafiosPage = () => {
             return;
         }
         fetchResueltos();
-        fetchDesafios();
         fetchTiposDeDesafios();
+        fetchDesafios();
     }, []);
 
     const fetchTiposDeDesafios = () => {
@@ -44,6 +45,7 @@ const DesafiosPage = () => {
         getListaDesafios(localStorage.getItem('token'))
             .then((data) => {
                 setListaDesafios(data);
+                fetchDesafiosUsuario();
             })
             .catch((error) => {
                 console.error('Error fetching desafios:', error);
@@ -54,6 +56,23 @@ const DesafiosPage = () => {
         getListaDesafiosUsuariosResueltos(localStorage.getItem('token'))
             .then((data) => {
                 setListaResueltos(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching desafios:', error);
+            });
+    };
+
+    const fetchDesafiosUsuario = () => {
+        getListaDesafiosDeUsuario(localStorage.getItem('token'))
+            .then((data) => {
+                setListaDesafiosUsuario(data);
+                setListaDesafios(prevDesafios => {
+                    return prevDesafios.map(element => {
+                        let intentosActuales = data.find(item => item.desafio_u === element.id)?.intento;
+                        desafioActual.intentosActuales = intentosActuales;
+                        return { ...element, intentosActuales };
+                    });
+                });
             })
             .catch((error) => {
                 console.error('Error fetching desafios:', error);
@@ -77,9 +96,15 @@ const DesafiosPage = () => {
     const handleClickDesafio = (desafio, tipo) => {
         // navigate(`/desafio/${desafioId}`);
         abrirModal();
-        setDesafioActual(desafio);
         setTipoActual(tipo);
+        setDesafioActual(desafio);
+        // cargarIntentosDisponobles(desafio);
     }
+
+    // const cargarIntentosDisponobles = (desafio) => {
+    //     let intentosActuales = listaDesafiosUsuario.filter(item => item.desafio_u === desafio.id)[0]?.intento;
+    //     desafioActual.intentosActuales = intentosActuales;
+    // }
 
     const onSubmitFlag = (e) => {
         setShowAlertError(false);
@@ -92,7 +117,7 @@ const DesafiosPage = () => {
         if (!isValid) return;
         saveRespuesta();
     }
-    
+
     const mensajeMotivacional = () => {
         setTimeout(() => {
             setShowMessageCorrect(false);
@@ -116,6 +141,7 @@ const DesafiosPage = () => {
             .catch((error) => {
                 setMensajeError("Respuesta incorrecta");
                 setShowAlertError(true);
+                fetchDesafios();
                 console.error('Error saving respuesta:', error);
             });
     }
@@ -138,12 +164,8 @@ const DesafiosPage = () => {
                                         {desafio.tipo.id === tipo.id && (
                                             <Card
                                                 className={`col-md-3 mb-2 m-3 
-                                                
-                                                ${listaResueltos.some(item => item.desafio_u === desafio.id) ? 'bg-success' : ''}
-                                                `}
-                                                // ${desafio.intentos === 3 ? 'bg-danger' : ''}
-                                                onClick={() => handleClickDesafio(desafio, tipo)}
-                                            >
+                                                ${listaResueltos.some(item => item.desafio_u === desafio.id) ? 'bg-success' : (desafio.intentosActuales === 3 ? 'bg-danger' : '')}`}
+                                                onClick={() => handleClickDesafio(desafio, tipo)}>
                                                 <Card.Body className="text-center">
                                                     <Card.Title>{desafio.titulo}</Card.Title>
                                                     <Card.Text>{desafio.puntos}</Card.Text>
@@ -190,11 +212,11 @@ const DesafiosPage = () => {
                         <br />
                         <br />
 
-                        {/* {desafioActual.intentos === 3 ? (
+                        {desafioActual.intentosActuales === 3 && !listaResueltos.some(item => item.desafio_u === desafioActual.id) ? (
                             <Alert variant="danger" className="mt-4">
                                 No tienes más intentos
                             </Alert>
-                        ) : ( */}
+                        ) : (
                             <FormGroup>
                                 <FormControl value={respuesta} required placeholder="NurCTF{flag}"
                                     onChange={(e) => {
@@ -202,17 +224,17 @@ const DesafiosPage = () => {
                                     }} />
                                 <Form.Control.Feedback type="invalid">Insert flag</Form.Control.Feedback>
                             </FormGroup>
-                        {/* )} */}
+                        )}
                         {showAlertError && <Alert variant="danger" className="mt-4">
                             {mensajeError}
                         </Alert>}
                     </Modal.Body>
                     <Modal.Footer>
-                        {/* {desafioActual.intentos < 3 && ( */}
+                        {((listaResueltos.some(item => item.desafio_u === desafioActual.id)) || desafioActual.intentosActuales < 3) && (
                             <Button variant="primary" type="submit">
                                 Enviar
                             </Button>
-                        {/* )} */}
+                        )}
                         <Button variant="secondary" onClick={cerrarModal}>
                             Cerrar
                         </Button>
