@@ -15,7 +15,7 @@ class DesafioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Desafio
-        fields = '__all__'
+        fields = ['id', 'titulo', 'descripcion', 'puntos', 'respuesta', 'intentos', 'archivo',]
 
 
 class DesafioViewSet(viewsets.ModelViewSet):
