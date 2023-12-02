@@ -16,7 +16,7 @@ venv/
 Scripts/
 Lib/
 .idea/
-0001_initial.py
+migrations/
 # Django development database
 db.sqlite3
 
