@@ -28,6 +28,7 @@ export default function HomePage() {
                         <Card.Text className="home-text">
                             Aquí encontrarás emocionantes desafíos para poner a prueba tus habilidades de seguridad informática.
                         </Card.Text>
+                        <p>Todas las respuestas seran en mayusculas sin tilde y con espacios</p>
                         <Button href={LOGIN_URL} variant="danger">
                             Iniciar Sesión
                         </Button>
