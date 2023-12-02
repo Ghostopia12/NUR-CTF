@@ -15,8 +15,7 @@ class DesafioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Desafio
-        fields = ['id', 'titulo', 'descripcion', 'puntos', 'respuesta', 'intentos', 'archivo',]
-
+        exclude = ['ver_respuesta']
 
 class DesafioViewSet(viewsets.ModelViewSet):
     queryset = Desafio.objects.all()
