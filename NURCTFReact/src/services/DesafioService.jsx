@@ -122,13 +122,15 @@ export const postRespuestaDesafio = (token, obj) => {
 
     console.log(formData);
     return new Promise((resolve, reject) => {
-        axios.post(BASE_URL + "/administracion/desafio/respuesta/", formData, {
+        axios.post(BASE_URL + "/administracion/desafio/respuesta/", obj, {
+
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
                 Authorization: `JWT ${token}`
             },
         })
             .then((response) => {
+
                 console.log(response);
                 resolve(response.data);
             })
@@ -136,7 +138,7 @@ export const postRespuestaDesafio = (token, obj) => {
                 console.log(error);
                 reject(error);
             });
-    });
+        });
 }
 
 export const putDesafio = (token, desafio) => {
