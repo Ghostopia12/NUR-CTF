@@ -16,16 +16,15 @@ export const validateLogin = (navigate) => {
     }
     return true;
 }
+export const checkIfUserIsAdmin = () => {
+    const is_superuser = localStorage.getItem("is_superuser");
+    return is_superuser==="true";
+}
 
-export const amILog = () => {
+export const checkIfSessionActive = () => {
     const token = getAuthToken();
     if (token==null) {
         return false;
     }
     return true;
-}
-
-export const checkIfUserIsAdmin = () => {
-    const is_superuser = localStorage.getItem("is_superuser");
-    return is_superuser==="true";
 }

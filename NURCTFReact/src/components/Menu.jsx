@@ -39,7 +39,10 @@ export default function Menu() {
                                 <Link className="nav-link" to={PISTA_CREATE_URL}>Crear Pista</Link>
                                 </>
                             }
-                            <Link className="nav-link" to={LOGIN_URL} onClick={logout}>Logout</Link>
+                            {
+                                localStorage.getItem("token") ?  <Link className="nav-link" to={LOGIN_URL} onClick={logout}>Logout</Link> : <Link className="nav-link" to={LOGIN_URL}>Login</Link>
+                            }
+                           
                         
                         </Nav>
                     </Navbar.Collapse>
