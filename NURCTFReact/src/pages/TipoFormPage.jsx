@@ -1,10 +1,10 @@
 import { Alert, Button, Card, Container, Form, FormControl, FormGroup } from "react-bootstrap";
 import Menu from "../components/Menu";
 import { useState, useEffect } from "react";
-import { postSaveTipo, getTipo, putTipo, getListaTipo } from "../services"; //, getTipoParticipants
+import { postSaveTipo, getTipo, putTipo } from "../services"; //, getTipoParticipants
 import { useNavigate, useParams } from "react-router-dom";
 import { HOME_URL } from "../navigation/CONSTANTS";
-import { getAuthToken, validateLogin } from "../utilities/TokenUtilities";
+import { getAuthToken, validateLogin, checkIfUserIsAdmin } from "../utilities/TokenUtilities";
 
 export default function TipoFormPage() {
     const navigate = useNavigate();
@@ -16,6 +16,10 @@ export default function TipoFormPage() {
     useEffect(() => {
         const loginValid = validateLogin(navigate);
         if (!loginValid) {
+            return;
+        }
+        if(!checkIfUserIsAdmin()){
+            navigate(HOME_URL);
             return;
         }
         if(id){

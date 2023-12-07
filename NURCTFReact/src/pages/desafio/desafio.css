@@ -1,0 +1,33 @@
+.hoverable {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.hoverable:hover {
+  cursor: pointer;
+  background-color: #f5f5f5;
+}
+
+.btnDescargar {
+  background-color: #f5f5f5;
+  border: none;
+  color: #000;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 8px;
+  border-radius: 4px;
+}
+.btnDescargar:hover {
+  cursor: pointer;
+  background-color: #e0e0e0;
+}
+
+.noHagoFrontendNuncaMas {
+  text-align: start;
+  padding: 16px;
+}/*# sourceMappingURL=desafio.css.map */

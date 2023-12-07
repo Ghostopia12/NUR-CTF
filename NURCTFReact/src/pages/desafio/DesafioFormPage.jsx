@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { postSaveDesafio, getDesafio, putDesafio, getListaTipo } from "../../services"; //, getDesafioParticipants
 import { useNavigate, useParams } from "react-router-dom";
 import { HOME_URL } from "../../navigation/CONSTANTS";
-import { getAuthToken, validateLogin } from "../../utilities/TokenUtilities";
+import { getAuthToken, validateLogin, checkIfUserIsAdmin } from "../../utilities/TokenUtilities";
 
 export default function DesafioFormPage() {
     const navigate = useNavigate();
@@ -25,6 +25,10 @@ export default function DesafioFormPage() {
     useEffect(() => {
         const loginValid = validateLogin(navigate);
         if (!loginValid) {
+            return;
+        }
+        if(!checkIfUserIsAdmin()){
+            navigate(HOME_URL);
             return;
         }
         loadTipo()

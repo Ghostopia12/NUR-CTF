@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { getDesafio } from "../../services";
 import { useNavigate, useParams } from "react-router-dom";
 import { HOME_URL } from "../../navigation/CONSTANTS";
-import { getAuthToken, validateLogin } from "../../utilities/TokenUtilities";
+import { getAuthToken, validateLogin,  } from "../../utilities/TokenUtilities";
 
 export default function DesafioDetailPage() {
     const navigate = useNavigate();
@@ -21,6 +21,7 @@ export default function DesafioDetailPage() {
         if (!loginValid) {
             return;
         }
+        
         //loadTiposGame()
         if(id){
             loadDesafio(id);
