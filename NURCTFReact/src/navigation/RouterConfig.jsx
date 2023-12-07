@@ -10,6 +10,7 @@ import TipoFormPage from "../pages/TipoFormPage";
 import PistaFormPage from "../pages/PistaFormPage";
 import MarcadorPage from "../pages/marcador/MarcadorPage";
 import DesafiosPage from "../pages/desafio/DesafiosPage";
+import AboutPage from "../pages/about/AboutPage";
 
 export const router = createBrowserRouter([
     {
@@ -58,15 +59,12 @@ export const router = createBrowserRouter([
     },
     {
         path: ABOUT_URL,
-        element: <TipoFormPage />,
+        element: <AboutPage />,
     },
     {
         path: BUSCADOR_URL,
         element: <BuscadorPage />,
     },
-
-
-
     {
         path: MARCADOR_URL,
         element: <MarcadorPage />,
